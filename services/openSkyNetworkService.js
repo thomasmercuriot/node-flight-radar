@@ -19,7 +19,7 @@ async function fetchOpenSkyNetwork(lamin, lomin, lamax, lomax) {
 };
 
 // The OpenSky Network API returns an array of states, where each state is a summary of an aircraft's tracking information.
-// The data is sorted to include only the relevant information for each aircraft.
+// The data is sorted to keep only the relevant information for each aircraft.
 
 function sortOpenSkyNetworkData(data) {
 
