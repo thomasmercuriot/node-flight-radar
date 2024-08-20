@@ -1,5 +1,6 @@
 const { fetchOpenSkyNetwork, sortOpenSkyNetworkData } = require('./services/openSkyNetworkService');
 const { scrapeAircraftRegistration } = require('./services/aircraftRegistrationService');
+const { scrapePlanePictures } = require('./services/planePicturesService');
 
 require('dotenv').config();
 
@@ -39,6 +40,17 @@ app.get('/api/aircraft/:icao24', async (req, res) => {
     console.log('Fetching registration data for aircraft with ICAO 24-bit address:', icao24);
     registration = await scrapeAircraftRegistration(icao24);
     res.status(200).json({ registration });
+  } catch (error) {
+    res.status(500).json({ message: '500 - Server error' });
+  }
+});
+
+app.get('/api/photo/:registration', async (req, res) => {
+  console.log('Received request to /api/photo/:registration');
+  const registration = req.params.registration;
+  try {
+    photo = await scrapePlanePictures(registration);
+    res.status(200).json({ photo });
   } catch (error) {
     res.status(500).json({ message: '500 - Server error' });
   }
