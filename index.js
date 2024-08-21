@@ -1,6 +1,7 @@
 const { fetchOpenSkyNetwork, sortOpenSkyNetworkData } = require('./services/openSkyNetworkService');
 const { scrapeAircraftRegistration } = require('./services/aircraftRegistrationService');
 const { scrapePlanePictures } = require('./services/planePicturesService');
+const { fetchPlaneSpotters } = require('./services/planeSpottersService');
 
 require('dotenv').config();
 
@@ -33,12 +34,12 @@ app.get('/api', async (req, res) => {
   }
 });
 
-app.get('/api/aircraft/:icao24', async (req, res) => {
+app.get('/api/registration/:icao24', async (req, res) => {
   console.log('Received request to /api/aircraft/:icao24');
   const icao24 = req.params.icao24;
   try {
     console.log('Fetching registration data for aircraft with ICAO 24-bit address:', icao24);
-    registration = await scrapeAircraftRegistration(icao24);
+    const registration = await scrapeAircraftRegistration(icao24);
     res.status(200).json({ registration });
   } catch (error) {
     res.status(500).json({ message: '500 - Server error' });
@@ -49,8 +50,29 @@ app.get('/api/photo/:registration', async (req, res) => {
   console.log('Received request to /api/photo/:registration');
   const registration = req.params.registration;
   try {
-    photo = await scrapePlanePictures(registration);
+    const photo = await scrapePlanePictures(registration);
     res.status(200).json({ photo });
+  } catch (error) {
+    res.status(500).json({ message: '500 - Server error' });
+  }
+});
+
+app.get('/api/aircraft/:registration', async (req, res) => {
+  console.log('Received request to /api/aircraft/:registration');
+  const registration = req.params.registration;
+  try {
+    console.log('Retrieving data for aircraft with registration number:', registration);
+
+    // Data
+    const thumbnail = await fetchPlaneSpotters(registration);
+
+    // JSON response
+    const aircraftData = {
+      registration: registration,
+      thumbnail: thumbnail,
+    };
+
+    res.status(200).json(aircraftData);
   } catch (error) {
     res.status(500).json({ message: '500 - Server error' });
   }
