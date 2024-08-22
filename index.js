@@ -2,6 +2,7 @@ const { fetchOpenSkyNetwork, sortOpenSkyNetworkData } = require('./services/open
 const { scrapeAircraftRegistration } = require('./services/aircraftRegistrationService');
 const { scrapePlanePictures } = require('./services/planePicturesService');
 const { fetchPlaneSpotters } = require('./services/planeSpottersService');
+const { scrapeAircraftData } = require('./services/aircraftDataService');
 
 require('dotenv').config();
 
@@ -65,14 +66,16 @@ app.get('/api/aircraft/:registration', async (req, res) => {
 
     // Data
     const thumbnail = await fetchPlaneSpotters(registration);
+    const aircraftData = await scrapeAircraftData(registration);
 
     // JSON response
-    const aircraftData = {
+    const flightData = {
       registration: registration,
       thumbnail: thumbnail,
+      data: aircraftData,
     };
 
-    res.status(200).json(aircraftData);
+    res.status(200).json(flightData);
   } catch (error) {
     res.status(500).json({ message: '500 - Server error' });
   }
