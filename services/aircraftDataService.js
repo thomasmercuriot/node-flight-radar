@@ -24,6 +24,33 @@ async function scrapeAircraftData(registration) {
 
     const aircraftData = {}; // Object to store scraped aircraft data.
 
+    // General flight information.
+
+    const flightInfo = $('#info-sections-wrapper').find('#info').find('#flight-info').find('#content').find('#value');
+    const operationDays = $('#info-sections-wrapper').find('#info').find('#flight-info').find('#content').find('#days-of-operation').find('.active');
+
+    const infoList = [];
+    flightInfo.each((i, element) => {
+      infoList.push($(element).text().trim());
+    });
+
+    const daysList = [];
+    operationDays.each((i, element) => {
+      daysList.push($(element).text().trim());
+    });
+
+    console.log(infoList);
+
+
+    aircraftData.overview = {
+      registration: registration,
+      callsign: $('#id').first().find('#secondary').text().trim(),
+      airline: infoList[0],
+      duration: infoList[1],
+      distance: infoList[2],
+      operationDays: daysList,
+    };
+
     // Origin and destination airports.
 
     const origin = $('#origin');
@@ -52,6 +79,8 @@ async function scrapeAircraftData(registration) {
       scheduled: departure.find('#scheduled').text().trim().slice(10),
       departed: departure.find('#time').children('span').text().trim(),
       timezone: departure.find('#time').children('small').attr('title'),
+      terminal: infoList[6],
+      gate: infoList[4],
     };
 
     if (departure.find('#delay').text().trim() === 'DELAYED') {
@@ -65,6 +94,8 @@ async function scrapeAircraftData(registration) {
       scheduled: arrival.find('#scheduled').text().trim().slice(10),
       estimated: arrival.find('#time').children('span').text().trim(),
       timezone: arrival.find('#time').children('small').attr('title'),
+      terminal: infoList[7],
+      gate: infoList[5],
     };
 
     if (arrival.find('#delay').text().trim() === 'DELAYED') {
