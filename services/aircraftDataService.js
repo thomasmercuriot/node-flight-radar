@@ -30,13 +30,52 @@ async function scrapeAircraftData(registration) {
     const destination = $('#destination');
 
     aircraftData.origin = {
-      airport: origin.find('#city').text().trim(),
+      city: origin.find('#city').text().trim(),
       code: origin.find('#code').text().trim(),
     };
 
     aircraftData.destination = {
-      airport: destination.find('#city').text().trim(),
+      city: destination.find('#city').text().trim(),
       code: destination.find('#code').text().trim(),
+    };
+
+    // Time and date of the flight.
+
+    const departure = $('#time').find('#departure');
+    const arrival = $('#time').find('#arrival');
+
+    aircraftData.origin.airport = departure.attr('name');
+    aircraftData.destination.airport = arrival.attr('name');
+
+    aircraftData.departure = {
+      date: departure.find('#date').text().trim(),
+      scheduled: departure.find('#scheduled').text().trim().slice(10),
+      departed: departure.find('#time').children('span').text().trim(),
+      timezone: departure.find('#time').children('small').attr('title'),
+    };
+
+    if (departure.find('#delay').text().trim() === 'DELAYED') {
+      aircraftData.departure.status = 'Delayed';
+    } else {
+      aircraftData.departure.status = 'On time';
+    };
+
+    aircraftData.arrival = {
+      date: arrival.find('#date').text().trim(),
+      scheduled: arrival.find('#scheduled').text().trim().slice(10),
+      estimated: arrival.find('#time').children('span').text().trim(),
+      timezone: arrival.find('#time').children('small').attr('title'),
+    };
+
+    if (arrival.find('#delay').text().trim() === 'DELAYED') {
+      aircraftData.arrival.status = 'Delayed';
+    } else {
+      aircraftData.arrival.status = 'On time';
+    };
+
+    aircraftData.progress = {
+      percentage: $('#progress').attr('title'),
+      status: $('.FlightStatus').first().text().trim().toLowerCase(),
     };
 
     // To-do...
