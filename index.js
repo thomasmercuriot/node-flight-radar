@@ -3,6 +3,7 @@ const { scrapeAircraftRegistration } = require('./services/aircraftRegistrationS
 const { scrapePlanePictures } = require('./services/planePicturesService');
 const { fetchPlaneSpotters } = require('./services/planeSpottersService');
 const { scrapeAircraftData } = require('./services/aircraftDataService');
+const { scrapePlanePhotos } = require('./services/planePhotosService');
 
 require('dotenv').config();
 
@@ -51,7 +52,8 @@ app.get('/api/photo/:registration', async (req, res) => {
   console.log('Received request to /api/photo/:registration');
   const registration = req.params.registration;
   try {
-    const photo = await scrapePlanePictures(registration);
+    // const photo = await scrapePlanePictures(registration);
+    const photo = await scrapePlanePhotos(registration);
     res.status(200).json({ photo });
   } catch (error) {
     res.status(500).json({ message: '500 - Server error' });
@@ -76,6 +78,17 @@ app.get('/api/aircraft/:registration', async (req, res) => {
     };
 
     res.status(200).json(flightData);
+  } catch (error) {
+    res.status(500).json({ message: '500 - Server error' });
+  }
+});
+
+app.get('/api/test/:registration', async (req, res) => {
+  console.log('Received request to /api/test/:registration');
+  const registration = req.params.registration;
+  try {
+    const testData = await scrapePlanePhotos(registration);
+    res.status(200).json({ testData });
   } catch (error) {
     res.status(500).json({ message: '500 - Server error' });
   }
