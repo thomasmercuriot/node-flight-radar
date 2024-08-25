@@ -39,9 +39,6 @@ async function scrapeAircraftData(registration) {
       daysList.push($(element).text().trim());
     });
 
-    console.log(infoList);
-
-
     aircraftData.overview = {
       registration: registration,
       callsign: $('#id').first().find('#secondary').text().trim(),
@@ -109,7 +106,25 @@ async function scrapeAircraftData(registration) {
       status: $('.FlightStatus').first().text().trim().toLowerCase(),
     };
 
+    // Aircraft information.
+
+    const aircraftInfo = $('#info-sections-wrapper').find('#info').find('#aircraft-info').find('#content').find('#value');
+
+    const aircraftInfoList = [];
+    aircraftInfo.each((i, element) => {
+      aircraftInfoList.push($(element).text().trim());
+    });
+
+    console.log(aircraftInfoList);
+
+    aircraftData.aircraft = {
+      type: aircraftInfoList[0],
+      transponder: aircraftInfoList[2],
+      serial: aircraftInfoList[3],
+    };
+
     // To-do...
+    // Fix distance because it can be randomly scraped in NM or KM.
 
     return aircraftData;
   } catch (error) {
