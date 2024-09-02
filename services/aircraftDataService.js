@@ -123,8 +123,30 @@ async function scrapeAircraftData(registration) {
       serial: aircraftInfoList[3],
     };
 
-    // To-do...
-    // Fix distance because it can be randomly scraped in NM or KM.
+    // Other flights this week.
+
+    const otherFlights = $('#root').find('table').find('tbody').find('tr');
+    const otherFlightList = [];
+
+    otherFlights.each((i, element) => {
+      const otherFlightData = {
+        date: $(element).find('#date').text().trim(),
+        callsign: $(element).find('#flight').text().trim(),
+        origin: $(element).find('#departure').text().trim(),
+        scheduledDeparture: $(element).find('#std').text().trim(),
+        actualDeparture: $(element).find('#atd').text().trim(),
+        destination: $(element).find('#arrival').text().trim(),
+        scheduledArrival: $(element).find('#sta').text().trim(),
+        delay: ($(element).find('#delay').find('span').attr('class') === 'red' ? 'Delayed' : 'On time'),
+        status: $(element).find('#status').find('span').text().trim(),
+        duration: $(element).find('#duration').text().trim(),
+      }
+      if (otherFlightData.date !== '') {
+        otherFlightList.push(otherFlightData);
+      }
+    });
+
+    aircraftData.otherFlights = otherFlightList;
 
     return aircraftData;
   } catch (error) {
