@@ -67,13 +67,13 @@ app.get('/api/aircraft/:registration', async (req, res) => {
     console.log('Retrieving data for aircraft with registration number:', registration);
 
     // Data
-    const thumbnail = await fetchPlaneSpotters(registration);
+    // const thumbnail = await fetchPlaneSpotters(registration); // Removed to improve performance.
     const aircraftData = await scrapeAircraftData(registration);
 
     // JSON response
     const flightData = {
       registration: registration,
-      thumbnail: thumbnail,
+      // thumbnail: thumbnail,
       data: aircraftData,
     };
 
