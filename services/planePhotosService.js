@@ -168,7 +168,7 @@ async function scrapePlanePhotos(registration) {
 
     return aircraftPhotoData;
   } catch (error) {
-    console.error('Failed to scrape aircraft registration data', error);
+    console.error('Failed to scrape aircraft photo', error);
   }
 };
 

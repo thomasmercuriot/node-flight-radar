@@ -150,7 +150,7 @@ async function scrapeAircraftData(registration) {
 
     return aircraftData;
   } catch (error) {
-    console.error('Failed to scrape aircraft registration data', error);
+    console.error('Failed to scrape aircraft data for this registration', registration, error);
   }
 };
 
