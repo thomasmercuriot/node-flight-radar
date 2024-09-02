@@ -1,9 +1,9 @@
 const { fetchOpenSkyNetwork, sortOpenSkyNetworkData } = require('./services/openSkyNetworkService');
 const { scrapeAircraftRegistration } = require('./services/aircraftRegistrationService');
-const { scrapePlanePictures } = require('./services/planePicturesService');
 const { fetchPlaneSpotters } = require('./services/planeSpottersService');
 const { scrapeAircraftData } = require('./services/aircraftDataService');
 const { scrapePlanePhotos } = require('./services/planePhotosService');
+const { scrapeFlightHistory } = require('./services/flightHistoryService');
 
 require('dotenv').config();
 
@@ -83,12 +83,12 @@ app.get('/api/aircraft/:registration', async (req, res) => {
   }
 });
 
-app.get('/api/test/:registration', async (req, res) => {
-  console.log('Received request to /api/test/:registration');
-  const registration = req.params.registration;
+app.get('/api/flights/:callsign', async (req, res) => {
+  console.log('Received request to /api/flights/:callsign');
+  const callsign = req.params.callsign;
   try {
-    const testData = await scrapePlanePhotos(registration);
-    res.status(200).json({ testData });
+    const flightHistoryData = await scrapeFlightHistory(callsign);
+    res.status(200).json({ flightHistoryData });
   } catch (error) {
     res.status(500).json({ message: '500 - Server error' });
   }
