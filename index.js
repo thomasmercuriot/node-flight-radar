@@ -10,14 +10,6 @@ require('dotenv').config();
 const app = require('express')();
 const PORT = process.env.PORT || 8080;
 
-// The following bounding box coordinates are used for testing purposes.
-// The aim is to later provide the bounding box coordinates dynamically based on the user's viewport.
-
-const lamin = 42.0000;
-const lomin = -5.8000;
-const lamax = 54.0000;
-const lomax = 8.7000;
-
 // Routes
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -25,9 +17,21 @@ app.get('/', (req, res) => {
 
 app.get('/api', async (req, res) => {
   console.log('Received request to /api');
+  const { lamin, lomin, lamax, lomax } = req.query; // Query parameters are the bounding box coordinates of our user's viewport.
+
+  if (!lamin || !lomin || !lamax || !lomax) {
+    return res.status(400).json({ message: '400 - Missing query parameters' });
+  };
+
   try {
     console.log('Fetching data from OpenSky Network API');
-    const data = await fetchOpenSkyNetwork(lamin, lomin, lamax, lomax);
+    // /api?lamin=XXX&lomin=XXX&lamax=XXX&lomax=XXX
+    const data = await fetchOpenSkyNetwork(
+      parseFloat(lamin),
+      parseFloat(lomin),
+      parseFloat(lamax),
+      parseFloat(lomax)
+    );
     console.log('Sorting data from OpenSky Network API');
     const sortedData = sortOpenSkyNetworkData(data);
     res.status(200).json(sortedData);
