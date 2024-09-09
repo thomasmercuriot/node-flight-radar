@@ -12,7 +12,8 @@ const app = require('express')();
 const PORT = process.env.PORT || 8080;
 
 // Middleware
-app.use(cors());  // Enable CORS for all requests. This is required to allow the frontend to access the API.
+app.use(cors());  // Enable CORS for all requests. This is required to allow the front-end to access the API.
+// Read front-end documentation at https://github.com/thomasmercuriot/react-flight-radar.
 
 // Routes
 app.get('/', (req, res) => {
