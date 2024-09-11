@@ -125,6 +125,14 @@ async function scrapeAircraftData(registration) {
 
     // Other flights this week.
 
+    const thisFlight = $('#root').find('table').find('tbody').find('.selected');
+
+    const thisFlightData = {
+      flightNumber: thisFlight.find('#flight').text().trim(),
+    };
+
+    aircraftData.thisFlight = (thisFlightData);
+
     const otherFlights = $('#root').find('table').find('tbody').find('tr');
     const otherFlightList = [];
 
