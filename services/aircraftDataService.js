@@ -102,7 +102,7 @@ async function scrapeAircraftData(registration) {
     };
 
     aircraftData.progress = {
-      percentage: $('#progress').attr('title'),
+      percentage: parseInt($('#progress').attr('title').slice(0, -1)),
       status: $('.FlightStatus').first().text().trim().toLowerCase(),
     };
 
