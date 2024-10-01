@@ -140,6 +140,7 @@ async function scrapeAircraftData(registration) {
       const otherFlightData = {
         date: $(element).find('#date').text().trim(),
         callsign: $(element).find('#flight').text().trim(),
+        airlineLogo: $(element).find('#flight').find('.AirlineLogo').attr('src'),
         origin: $(element).find('#departure').text().trim(),
         scheduledDeparture: $(element).find('#std').text().trim(),
         actualDeparture: $(element).find('#atd').text().trim(),
