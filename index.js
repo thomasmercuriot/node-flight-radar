@@ -9,7 +9,7 @@ require('dotenv').config();
 
 const cors = require('cors');  // npm install cors | CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
 const app = require('express')();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 
 // Middleware
 app.use(cors());  // Enable CORS for all requests. This is required to allow the front-end to access the API.
