@@ -119,16 +119,16 @@ I'll review your submission as soon as possible. Thanks in advance for contribut
 
 ### GET /api
 
-Retrieves live airspace data for a specified geographic area using the [OpenSky%20Network%20REST%20API](https://openskynetwork.github.io/opensky-api/index.html), which collects data from the ADS-B[^3] Exchange. The data is filtered to include only the relevant information needed for this project. The geographic area is defined by box coordinates, which are passed as query parameters from the front-end.
+Retrieves live airspace data for a specified geographic area using the [OpenSky Network REST API](https://openskynetwork.github.io/opensky-api/index.html), which collects data from the ADS-B[^3] Exchange. The data is filtered to include only the relevant information needed for this project. The geographic area is defined by box coordinates, which are passed as query parameters from the front-end.
 
 [^3]: [Wikipedia : Automatic Dependant Surveillance Broadcast (ADS-B)](https://fr.wikipedia.org/wiki/Automatic_dependent_surveillance-broadcast)
 
 | Parameters | Type | Description | Example |
 | ---------- | ---- | ----------- | ------- |
-| lamin | Float | Minimum Latitude (Box Coordinates) | 48.6278 |
-| lomin | Float | Minimum Longitude (Box Coordinates) | 2.2547 |
-| lamax | Float | Maximum Latitude (Box Coordinates) | 49.3854 |
-| lomax | Float | Maximum Longitude (Box Coordinates) | 2.8453 |
+| **lamin** | Float | Minimum Latitude (Box Coordinates) | 48.6278 |
+| **lomin** | Float | Minimum Longitude (Box Coordinates) | 2.2547 |
+| **lamax** | Float | Maximum Latitude (Box Coordinates) | 49.3854 |
+| **lomax** | Float | Maximum Longitude (Box Coordinates) | 2.8453 |
 
 Expected Output :
 
@@ -172,3 +172,36 @@ Where each object represents a flight currently in the specified geographic area
 | 8 | **vertical_rate** | Float | Vertical rate in m/s |
 | 9 | **geo_altitude** | Float | Geometric altitude in meters |
 | 10 | **squawk** | Integer | The transponder code |
+
+### GET /api/registration/
+
+Converts a given ICAO 24-bit address and returns the corresponding aircraft registration. The registration number is scraped from the [RadarBox](https://www.radarbox.com/) website using [Axios](https://www.npmjs.com/package/axios) and [Cheerio](https://www.npmjs.com/package/cheerio).
+
+> [!WARNING]
+> Web scraping is generally not recommended for several reasons :
+>
+> 1. **Legal and Ethical Concerns** : Many websites have terms of service that explicitly prohibit scraping, and scraping without permission can violate these terms, leading to potential legal action.
+> 2. **Server Load** : Scraping can place a significant load on a website's server, potentially disrupting service for other users or even leading to IP bans if the site detects excessive requests.
+> 3. **Data Integrity** : Websites can change their structure or data format at any time, which may break your scraping logic and lead to inaccurate or incomplete data.
+>
+> This code is intended for educational purposes only, as part of a personal project to practice and improve programming skills. This application is not intended for public use. If you plan to scrape data for more than personal use, it's highly recommended to seek permission from the website owner or use official APIs if available.
+
+| Parameters | Type | Description | Example |
+| ---------- | ---- | ----------- | ------- |
+| **icao24** | String | ICAO 24-bit address | 3949EE |
+
+Expected Output :
+
+```
+GET /api/registration/3949EE
+```
+
+```javascript
+{
+  "registration": "F-GSPO"
+}
+```
+
+| Index | Property | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| 0 | **registration** | String | Corresponding aircraft registration for a given ICAO 24-bit address |
