@@ -108,3 +108,9 @@ git push origin feature-or-fix-name
 Go to the original repository on GitHub and click the **New Pull Request** button. Select your branch and submit your PR with a brief description of the changes.
 
 I'll review your submission as soon as possible. Thanks in advance for contributing ! :rocket:
+
+## Environment Variables
+
+| Environment variable | Default value |
+| -------------------- | ------------- |
+| `PORT` | `8000` |
