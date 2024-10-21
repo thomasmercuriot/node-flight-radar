@@ -514,3 +514,7 @@ This example includes data for flights in the past, present, and upcoming schedu
 | 0.9 | **flightHistoryData[].delay** | String | Flight delay status |
 | 0.10 | **flightHistoryData[].status** | String | Flight status (e.g. Scheduled, Est. Arrival, Landed) |
 | 0.11 | **flightHistoryData[].duration** | String | Total flight duration |
+
+## License
+
+This project is licensed under the [MIT License](https://opensource.org/license/mit).
