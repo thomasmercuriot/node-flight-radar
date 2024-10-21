@@ -208,10 +208,10 @@ GET /api/registration/3949EE
 
 ### GET /api/photo
 
-Returns the URL of a high definition image of an aircraft given its registration. Also returns some useful data about the photo and the airframe.
+Returns a high-definition image URL of an aircraft based on its registration number, along with detailed information about the photo and the airframe. The program selects a random photo from the available images for the given registration on [AirHistory.net](https://www.airhistory.net), ensuring a more engaging experience for users who may track the same aircraft multiple times.
 
 > [!WARNING]
-> See [Web Scraping Disclaimer](#get-apiregistration)
+> [Web Scraping Disclaimer](#get-apiregistration)
 
 | Parameters | Type | Description | Example |
 | ---------- | ---- | ----------- | ------- |
@@ -230,7 +230,7 @@ GET /api/photo/F-GSPO
     "photoData": {
         "registration": "F-GSPO",
         "aircraftType": "Boeing 777-228/ER",
-        "locationAirport": "Paris - Charles de Gaulle (LFPG / CDG)Map",
+        "locationAirport": "Paris - Charles de Gaulle (LFPG / CDG)",
         "locationCountry": "France",
         "date": "25 March 2011",
         "photographer": "Freek Blokzijl"
@@ -245,7 +245,7 @@ https://www.airhistory.net/photos/0413575.jpg
 
 ![F-GSPO](assets/images/F-GSPO.jpg)
 
-:camera: F-GSPO | Photo by Freek Blokzijl
+:camera: F-GSPO - Photo by Freek Blokzijl
 
 | Index | Property | Type | Description |
 | ----- | -------- | ---- | ----------- |
@@ -257,3 +257,179 @@ https://www.airhistory.net/photos/0413575.jpg
 | 1.4 | **locationCountry** | String | Country where the photo was taken |
 | 1.5 | **date** | String | Date the photo was taken |
 | 1.6 | **photographer** | String | Name of the photographer who took the photo |
+
+In certain cases, the output may also include the following data :
+
+| Index | Property | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| 1.7 | **alternateRegistration** | String | Previous known registration for the same airframe |
+| 1.8 | **aircraftLivery** | String | Special aircraft livery |
+
+### GET /api/aircraft
+
+Returns detailed live flight-tracking data for a given registration as well as information about the aircraft and its recent flight history. The relevant data is scraped from the [RadarBox](https://www.radarbox.com/) website using [Axios](https://www.npmjs.com/package/axios) and [Cheerio](https://www.npmjs.com/package/cheerio).
+
+> [!WARNING]
+> [Web Scraping Disclaimer](#get-apiregistration)
+
+| Parameters | Type | Description | Example |
+| ---------- | ---- | ----------- | ------- |
+| **registration** | String | Selected aircraft's registration | F-GSPO |
+
+Expected Output :
+
+```
+GET /api/aircraft/F-GSPO
+```
+
+```javascript
+{
+  "registration": "F-GSPO",
+  "data": {
+    "overview": {
+      "registration": "F-GSPO",
+      "callsign": "AF201 / AFR201",
+      "airline": "Air France",
+      "duration": "12h32m",
+      "distance": "8191 km",
+      "operationDays": [
+        "Sun",
+        "Mon",
+        "Tue",
+        "Wed",
+        "Thu",
+        "Fri",
+        "Sat"
+      ]
+    },
+    "origin": {
+      "city": "Beijing",
+      "code": "(PEK / ZBAA)",
+      "airport": "Beijing Capital International Airport"
+    },
+    "destination": {
+      "city": "Paris",
+      "code": "(CDG / LFPG)",
+      "airport": "Paris - Charles de Gaulle International Airport"
+    },
+    "departure": {
+      "date": "Monday, October 21 2024",
+      "scheduled": "23:00",
+      "departed": "23:32",
+      "timezone": "China Standard Time (UTC+08:00)",
+      "terminal": "2",
+      "gate": "14",
+      "status": "Delayed"
+    },
+    "arrival": {
+      "date": "Tuesday, October 22 2024",
+      "scheduled": "05:55",
+      "estimated": "05:32",
+      "timezone": "Central European Summer Time (UTC+02:00)",
+      "terminal": "2E",
+      "gate": "-",
+      "status": "On time"
+    },
+    "progress": {
+      "percentage": 41,
+      "status": "landing in 7h 59m"
+    },
+    "aircraft": {
+      "type": "Boeing 777-228ER",
+      "transponder": "3949EE",
+      "serial": "30614/320"
+    },
+    "thisFlight": {
+      "flightNumber": "AF201"
+    },
+    "otherFlights": [
+      {
+        "date": "2024 21 Oct",
+        "callsign": "AF201",
+        "airlineLogo": "https://cdn.radarbox.com/airlines/sq/AFR.png",
+        "origin": "Beijing (PEK/ZBAA)",
+        "scheduledDeparture": "23:00 CST",
+        "actualDeparture": "23:32 CST",
+        "destination": "Paris (CDG/LFPG)",
+        "scheduledArrival": "05:55 CEST",
+        "delay": "On time",
+        "status": "Est. Arrival 05:32 CEST",
+        "duration": "12h32m"
+      },
+      {
+        "date": "2024 20 Oct",
+        "callsign": "AF202",
+        "airlineLogo": "https://cdn.radarbox.com/airlines/sq/AFR.png",
+        "origin": "Paris (CDG/LFPG)",
+        "scheduledDeparture": "22:00 CEST",
+        "actualDeparture": "22:13 CEST",
+        "destination": "Beijing (PEK/ZBAA)",
+        "scheduledArrival": "15:25 CST",
+        "delay": "On time",
+        "status": "Landed 15:22 CST",
+        "duration": "10h43m"
+      },
+      {
+        ...
+      }
+    ]
+  }
+}
+```
+
+| Index | Property | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| 0 | **registration** | String | Aircraft registration number |
+| 1 | **data** | Object | Main container for the flight data |
+| 1.1 | **data.overview** | Object | General overview of the current flight |
+| 1.1.1 | **data.overview.registration** | String | Aircraft registration number  |
+| 1.1.2 | **data.overview.callsign** | String | Current flight callsign |
+| 1.1.3 | **data.overview.airline** | String | Airline name |
+| 1.1.4 | **data.overview.duration** | String | Average current flight duration in hours and minutes |
+| 1.1.5 | **data.overview.distance** | String | Average current flight distance covered in kilometers |
+| 1.1.6 | **data.overview.operationDays** | Array\[String\] | Days of the week when the current flight operates |
+| 1.2 | **data.origin** | Object | Details of the current flight departure location |
+| 1.2.1 | **data.origin.city** | String | Current flight departure city |
+| 1.2.2 | **data.origin.code** | String | Current flight departure airport ICAO/IATA code |
+| 1.2.3 | **data.origin.airport** | String | Full name of the current flight departure airport |
+| 1.3 | **data.destination** | Object | Details of the current flight arrival location |
+| 1.3.1 | **data.destination.city** | String | Current flight arrival city |
+| 1.3.2 | **data.destination.code** | String | Current flight arrival airport ICAO/IATA code |
+| 1.3.3 | **data.destination.airport** | String | Full name of the current flight arrival airport |
+| 1.4 | **data.departure** | Object | Information about the current flight departure |
+| 1.4.1 | **data.departure.date** | String | Current flight scheduled departure date |
+| 1.4.2 | **data.departure.scheduled** | String | Current flight scheduled departure time |
+| 1.4.3 | **data.departure.departed** | String | Current flight actual departure time |
+| 1.4.4 | **data.departure.timezone** | String | Current flight departure timezone and UTC offset |
+| 1.4.5 | **data.departure.terminal** | String | Current flight departure terminal |
+| 1.4.6 | **data.departure.gate** | String | Current flight departure gate |
+| 1.4.7 | **data.departure.status** | String | Current flight departure status (e.g. On Time, Delayed, Cancelled) |
+| 1.5 | **data.arrival** | Object | Information about the current flight arrival |
+| 1.5.1 | **data.arrival.date** | String | Current flight scheduled arrival date |
+| 1.5.2 | **data.arrival.scheduled** | String | Current flight scheduled arrival time |
+| 1.5.3 | **data.arrival.estimated** | String | Current flight estimated arrival time |
+| 1.5.4 | **data.arrival.timezone** | String | Current flight arrival timezone and UTC offset |
+| 1.5.5 | **data.arrival.terminal** | String | Current flight arrival terminal |
+| 1.5.6 | **data.arrival.gate** | String | Current flight arrival gate |
+| 1.5.7 | **data.arrival.status** | String | Current flight arrival status (e.g. On Time, Delayed, Cancelled) |
+| 1.6 | **data.progress** | Object | Current flight progress |
+| 1.6.1 | **data.progress.percentage** | Integer | Percentage of the current flight completed |
+| 1.6.2 | **data.progress.status** | String | Status of the current flight progress (e.g. landing in 7h 59m) |
+| 1.7 | **data.aircraft** | Object | Details about the aircraft |
+| 1.7.1 | **data.aircraft.type** | String | Aircraft type |
+| 1.7.2 | **data.aircraft.transponder** | String | Aircraft’s ICAO 24-bit transponder code |
+| 1.7.3 | **data.aircraft.serial** | String | Serial number of the aircraft |
+| 1.8 | **data.thisFlight** | Object | Details specific to the current flight |
+| 1.8.1 | **data.thisFlight.flightNumber** | String | Current flight number |
+| 1.9 | **data.otherFlights** | Array\[Object\] | Aircraft flight history |
+| 1.9.1 | **data.otherFlights[].date** | String | Date of the flight |
+| 1.9.2 | **data.otherFlights[].callsign** | String | Callsign for the flight |
+| 1.9.3 | **data.otherFlights[].airlineLogo** | String | URL to the airline logo |
+| 1.9.4 | **data.otherFlights[].origin** | String | Origin city and airport code |
+| 1.9.5 | **data.otherFlights[].scheduledDeparture** | String | Scheduled departure time with timezone |
+| 1.9.6 | **data.otherFlights[].actualDeparture** | String | Actual departure time with timezone |
+| 1.9.7 | **data.otherFlights[].destination** | String | Destination city and airport code |
+| 1.9.8 | **data.otherFlights[].scheduledArrival** | String | Scheduled arrival time with timezone |
+| 1.9.9 | **data.otherFlights[].delay** | String | Delay status |
+| 1.9.10 | **data.otherFlights[].status** | String | Status of the flight (e.g. Landed) |
+| 1.9.11 | **data.otherFlights[].duration** | String | Flight duration |
