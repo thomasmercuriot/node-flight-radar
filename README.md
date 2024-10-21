@@ -124,6 +124,7 @@ Retrieves live airspace data for a specified geographic area using the [OpenSky%
 [^3]: [Wikipedia : Automatic Dependant Surveillance Broadcast (ADS-B)](https://fr.wikipedia.org/wiki/Automatic_dependent_surveillance-broadcast)
 
 | Parameters | Type | Description | Example |
+| ---------- | ---- | ----------- | ------- |
 | lamin | Float | Minimum Latitude (Box Coordinates) | 48.6278 |
 | lomin | Float | Minimum Longitude (Box Coordinates) | 2.2547 |
 | lamax | Float | Maximum Latitude (Box Coordinates) | 49.3854 |
@@ -159,6 +160,7 @@ GET /api?lamin=48.6278&lomin=2.2547&lamax=49.3854&lomax=2.8453
 Where each object represents a flight currently in the specified geographic area.
 
 | Index | Property | Type | Description |
+| ----- | -------- | ---- | ----------- |
 | 0 | **icao24** | String | Unique ICAO 24-bit address of the transponder in hex string representation |
 | 1 | **callsign** | String | Callsign of the vehicle (8 chars) |
 | 2 | **last_contact** | Integer | Unix timestamp (seconds) for the last update |
