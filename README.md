@@ -114,3 +114,59 @@ I'll review your submission as soon as possible. Thanks in advance for contribut
 | Environment variable | Default value |
 | -------------------- | ------------- |
 | `PORT` | `8000` |
+
+## API Endpoints
+
+### GET /api
+
+Retrieves live airspace data for a specified geographic area using the [OpenSky%20Network%20REST%20API](https://openskynetwork.github.io/opensky-api/index.html), which collects data from the ADS-B[^3] Exchange. The data is filtered to include only the relevant information needed for this project. The geographic area is defined by box coordinates, which are passed as query parameters from the front-end.
+
+[^3]: [Wikipedia : Automatic Dependant Surveillance Broadcast (ADS-B)](https://fr.wikipedia.org/wiki/Automatic_dependent_surveillance-broadcast)
+
+| Parameters | Type | Description | Example |
+| lamin | Float | Minimum Latitude (Box Coordinates) | 48.6278 |
+| lomin | Float | Minimum Longitude (Box Coordinates) | 2.2547 |
+| lamax | Float | Maximum Latitude (Box Coordinates) | 49.3854 |
+| lomax | Float | Maximum Longitude (Box Coordinates) | 2.8453 |
+
+Expected Output :
+
+```
+GET /api?lamin=48.6278&lomin=2.2547&lamax=49.3854&lomax=2.8453
+```
+
+```javascript
+[
+  {
+    "icao24": "39de47",
+    "callsign": "TVF81BW",
+    "last_contact": 1729521120,
+    "longitude": 2.782,
+    "latitude": 48.7072,
+    "baro_altitude": 1958.34,
+    "velocity": 146.03,
+    "true_track": 42.29,
+    "vertical_rate": -8.45,
+    "geo_altitude": 2110.74,
+    "squawk": "1465"
+  },
+  {
+    ...
+  }
+]
+```
+
+Where each object represents a flight currently in the specified geographic area.
+
+| Index | Property | Type | Description |
+| 0 | **icao24** | String | Unique ICAO 24-bit address of the transponder in hex string representation |
+| 1 | **callsign** | String | Callsign of the vehicle (8 chars) |
+| 2 | **last_contact** | Integer | Unix timestamp (seconds) for the last update |
+| 3 | **longitude** | Float | WGS-84 longitude in decimal degrees |
+| 4 | **latitude** | Float | WGS-84 latitude in decimal degrees |
+| 5 | **baro_altitude** | Float | Barometric altitude in meters |
+| 6 | **velocity** | Float | Velocity over ground in m/s |
+| 7 | **true_track** | Float | True track in decimal degrees clockwise from north (north=0°) |
+| 8 | **vertical_rate** | Float | Vertical rate in m/s |
+| 9 | **geo_altitude** | Float | Geometric altitude in meters |
+| 10 | **squawk** | Integer | The transponder code |
