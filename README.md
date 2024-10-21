@@ -1,6 +1,4 @@
 [![Linkedin](https://img.shields.io/badge/style--5eba00.svg?label=Thomas%20Mercuriot&logo=linkedin&style=social)](https://www.linkedin.com/in/thomasmercuriot/ "Let's connect on Linkedin !")
-[![Front-End](https://badgen.net/badge/>/Read%20the%20Front-End%20documentation?icon=github&label/)](https://github.com/thomasmercuriot/react-flight-radar "Read the Front-End Documentation")
-
 [![Made with Node.js](https://img.shields.io/badge/Node.js->=20-blue?logo=node.js&logoColor=green)](https://nodejs.org "Go to Node.js homepage")
 ![Last Commit](https://badgen.net/github/last-commit/thomasmercuriot/node-flight-radar)
 ![GitHub contributors](https://img.shields.io/github/contributors/thomasmercuriot/node-flight-radar)
@@ -171,7 +169,7 @@ Where each object represents a flight currently in the specified geographic area
 | 7 | **true_track** | Float | True track in decimal degrees clockwise from north (north=0°) |
 | 8 | **vertical_rate** | Float | Vertical rate in m/s |
 | 9 | **geo_altitude** | Float | Geometric altitude in meters |
-| 10 | **squawk** | Integer | The transponder code |
+| 10 | **squawk** | String | The transponder code |
 
 ### GET /api/registration
 
@@ -245,7 +243,7 @@ https://www.airhistory.net/photos/0413575.jpg
 
 ![F-GSPO](assets/images/F-GSPO.jpg)
 
-:camera: F-GSPO - Photo by Freek Blokzijl
+F-GSPO - Photo by Freek Blokzijl
 
 | Index | Property | Type | Description |
 | ----- | -------- | ---- | ----------- |
@@ -284,96 +282,96 @@ GET /api/aircraft/F-GSPO
 
 ```javascript
 {
-  "registration": "F-GSPO",
-  "data": {
-    "overview": {
-      "registration": "F-GSPO",
-      "callsign": "AF201 / AFR201",
-      "airline": "Air France",
-      "duration": "12h32m",
-      "distance": "8191 km",
-      "operationDays": [
-        "Sun",
-        "Mon",
-        "Tue",
-        "Wed",
-        "Thu",
-        "Fri",
-        "Sat"
-      ]
-    },
-    "origin": {
-      "city": "Beijing",
-      "code": "(PEK / ZBAA)",
-      "airport": "Beijing Capital International Airport"
-    },
-    "destination": {
-      "city": "Paris",
-      "code": "(CDG / LFPG)",
-      "airport": "Paris - Charles de Gaulle International Airport"
-    },
-    "departure": {
-      "date": "Monday, October 21 2024",
-      "scheduled": "23:00",
-      "departed": "23:32",
-      "timezone": "China Standard Time (UTC+08:00)",
-      "terminal": "2",
-      "gate": "14",
-      "status": "Delayed"
-    },
-    "arrival": {
-      "date": "Tuesday, October 22 2024",
-      "scheduled": "05:55",
-      "estimated": "05:32",
-      "timezone": "Central European Summer Time (UTC+02:00)",
-      "terminal": "2E",
-      "gate": "-",
-      "status": "On time"
-    },
-    "progress": {
-      "percentage": 41,
-      "status": "landing in 7h 59m"
-    },
-    "aircraft": {
-      "type": "Boeing 777-228ER",
-      "transponder": "3949EE",
-      "serial": "30614/320"
-    },
-    "thisFlight": {
-      "flightNumber": "AF201"
-    },
-    "otherFlights": [
-      {
-        "date": "2024 21 Oct",
-        "callsign": "AF201",
-        "airlineLogo": "https://cdn.radarbox.com/airlines/sq/AFR.png",
-        "origin": "Beijing (PEK/ZBAA)",
-        "scheduledDeparture": "23:00 CST",
-        "actualDeparture": "23:32 CST",
-        "destination": "Paris (CDG/LFPG)",
-        "scheduledArrival": "05:55 CEST",
-        "delay": "On time",
-        "status": "Est. Arrival 05:32 CEST",
-        "duration": "12h32m"
-      },
-      {
-        "date": "2024 20 Oct",
-        "callsign": "AF202",
-        "airlineLogo": "https://cdn.radarbox.com/airlines/sq/AFR.png",
-        "origin": "Paris (CDG/LFPG)",
-        "scheduledDeparture": "22:00 CEST",
-        "actualDeparture": "22:13 CEST",
-        "destination": "Beijing (PEK/ZBAA)",
-        "scheduledArrival": "15:25 CST",
-        "delay": "On time",
-        "status": "Landed 15:22 CST",
-        "duration": "10h43m"
-      },
-      {
-        ...
-      }
-    ]
-  }
+    "registration": "F-GSPO",
+    "data": {
+        "overview": {
+            "registration": "F-GSPO",
+            "callsign": "AF201 / AFR201",
+            "airline": "Air France",
+            "duration": "12h32m",
+            "distance": "8191 km",
+            "operationDays": [
+                "Sun",
+                "Mon",
+                "Tue",
+                "Wed",
+                "Thu",
+                "Fri",
+                "Sat"
+            ]
+        },
+        "origin": {
+            "city": "Beijing",
+            "code": "(PEK / ZBAA)",
+            "airport": "Beijing Capital International Airport"
+        },
+        "destination": {
+            "city": "Paris",
+            "code": "(CDG / LFPG)",
+            "airport": "Paris - Charles de Gaulle International Airport"
+        },
+        "departure": {
+            "date": "Monday, October 21 2024",
+            "scheduled": "23:00",
+            "departed": "23:32",
+            "timezone": "China Standard Time (UTC+08:00)",
+            "terminal": "2",
+            "gate": "14",
+            "status": "Delayed"
+        },
+        "arrival": {
+            "date": "Tuesday, October 22 2024",
+            "scheduled": "05:55",
+            "estimated": "05:32",
+            "timezone": "Central European Summer Time (UTC+02:00)",
+            "terminal": "2E",
+            "gate": "-",
+            "status": "On time"
+        },
+        "progress": {
+            "percentage": 41,
+            "status": "landing in 7h 59m"
+        },
+        "aircraft": {
+            "type": "Boeing 777-228ER",
+            "transponder": "3949EE",
+            "serial": "30614/320"
+        },
+        "thisFlight": {
+            "flightNumber": "AF201"
+        },
+        "otherFlights": [
+            {
+                "date": "2024 21 Oct",
+                "callsign": "AF201",
+                "airlineLogo": "https://cdn.radarbox.com/airlines/sq/AFR.png",
+                "origin": "Beijing (PEK/ZBAA)",
+                "scheduledDeparture": "23:00 CST",
+                "actualDeparture": "23:32 CST",
+                "destination": "Paris (CDG/LFPG)",
+                "scheduledArrival": "05:55 CEST",
+                "delay": "On time",
+                "status": "Est. Arrival 05:32 CEST",
+                "duration": "12h32m"
+            },
+            {
+                "date": "2024 20 Oct",
+                "callsign": "AF202",
+                "airlineLogo": "https://cdn.radarbox.com/airlines/sq/AFR.png",
+                "origin": "Paris (CDG/LFPG)",
+                "scheduledDeparture": "22:00 CEST",
+                "actualDeparture": "22:13 CEST",
+                "destination": "Beijing (PEK/ZBAA)",
+                "scheduledArrival": "15:25 CST",
+                "delay": "On time",
+                "status": "Landed 15:22 CST",
+                "duration": "10h43m"
+            },
+            {
+                ...
+            }
+        ]
+    }
 }
 ```
 
@@ -433,3 +431,86 @@ GET /api/aircraft/F-GSPO
 | 1.9.9 | **data.otherFlights[].delay** | String | Delay status |
 | 1.9.10 | **data.otherFlights[].status** | String | Status of the flight (e.g. Landed) |
 | 1.9.11 | **data.otherFlights[].duration** | String | Flight duration |
+
+### GET /api/flights
+
+Returns the recent flight history for a given callsign/flight number. The relevant data is scraped from the [RadarBox](https://www.radarbox.com/) website using [Axios](https://www.npmjs.com/package/axios) and [Cheerio](https://www.npmjs.com/package/cheerio).
+
+> [!WARNING]
+> [Web Scraping Disclaimer](#get-apiregistration)
+
+| Parameters | Type | Description | Example |
+| ---------- | ---- | ----------- | ------- |
+| **callsign** | String | Selected flight's callsign | AF201 |
+
+Expected Output :
+
+```
+GET /api/flights/AF201
+```
+
+```javascript
+{
+    "flightHistoryData": [
+        {
+            "date": "2024 23 Oct",
+            "callsign": "AF201",
+            "origin": "Beijing (PEK/ZBAA)",
+            "scheduledDeparture": "23:00 CST",
+            "actualDeparture": "",
+            "destination": "Paris (CDG/LFPG)",
+            "scheduledArrival": "05:55 CEST",
+            "aircraftType": "B772",
+            "delay": "On time",
+            "status": "Scheduled",
+            "duration": "12h55m"
+        },
+        {
+            "date": "2024 21 Oct",
+            "callsign": "AF201",
+            "origin": "Beijing (PEK/ZBAA)",
+            "scheduledDeparture": "23:00 CST",
+            "actualDeparture": "23:32 CST",
+            "destination": "Paris (CDG/LFPG)",
+            "scheduledArrival": "05:55 CEST",
+            "aircraftType": "B772 (F-GSPO)",
+            "delay": "On time",
+            "status": "Est. Arrival 05:34 CEST",
+            "duration": "12h34m"
+        },
+        {
+            "date": "2024 20 Oct",
+            "callsign": "AF201",
+            "origin": "Beijing (PEK/ZBAA)",
+            "scheduledDeparture": "23:00 CST",
+            "actualDeparture": "23:15 CST",
+            "destination": "Paris (CDG/LFPG)",
+            "scheduledArrival": "05:55 CEST",
+            "aircraftType": "B772 (F-GSPJ)",
+            "delay": "On time",
+            "status": "Landed 06:03 CEST",
+            "duration": "12h28m"
+        },
+        {
+            ...
+        }
+    ]
+}
+```
+
+This example includes data for flights in the past, present, and upcoming schedules.
+
+| Index | Property | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| 0 | **flightHistoryData** | Array\[Object\] | List of historical flight data entries (Past, Present, and Future) |
+| 0.1 | **flightHistoryData[].date** | String | Date of the flight |
+| 0.2 | **flightHistoryData[].callsign** | String | Selected flight's callsign |
+| 0.3 | **flightHistoryData[].origin** | String | Flight origin city and airport ICAO/IATA code |
+| 0.4 | **flightHistoryData[].scheduledDeparture** | String | Flight scheduled departure time and local time zone |
+| 0.5 | **flightHistoryData[].actualDeparture** | String | Flight actual departure time and local time zone |
+| 0.6 | **flightHistoryData[].destination** | String | Flight destination city and airport ICAO/IATA code |
+| 0.7 | **flightHistoryData[].scheduledArrival** | String | Flight scheduled arrival time and local time zone |
+| 0.8 | **flightHistoryData[].aircraftType** | String | Flight aircraft type and registration |
+| 0.9 | **flightHistoryData[].delay** | String | Flight delay status |
+| 0.10 | **flightHistoryData[].status** | String | Flight status (e.g. Scheduled, Est. Arrival, Landed) |
+| 0.11 | **flightHistoryData[].duration** | String | Total flight duration |
