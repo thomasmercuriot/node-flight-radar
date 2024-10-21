@@ -173,7 +173,7 @@ Where each object represents a flight currently in the specified geographic area
 | 9 | **geo_altitude** | Float | Geometric altitude in meters |
 | 10 | **squawk** | Integer | The transponder code |
 
-### GET /api/registration/
+### GET /api/registration
 
 Converts a given ICAO 24-bit address and returns the corresponding aircraft registration. The registration number is scraped from the [RadarBox](https://www.radarbox.com/) website using [Axios](https://www.npmjs.com/package/axios) and [Cheerio](https://www.npmjs.com/package/cheerio).
 
@@ -205,3 +205,55 @@ GET /api/registration/3949EE
 | Index | Property | Type | Description |
 | ----- | -------- | ---- | ----------- |
 | 0 | **registration** | String | Corresponding aircraft registration for a given ICAO 24-bit address |
+
+### GET /api/photo
+
+Returns the URL of a high definition image of an aircraft given its registration. Also returns some useful data about the photo and the airframe.
+
+> [!WARNING]
+> See [Web Scraping Disclaimer](#get-apiregistration)
+
+| Parameters | Type | Description | Example |
+| ---------- | ---- | ----------- | ------- |
+| **registration** | String | Selected aircraft's registration | F-GSPO |
+
+Expected Output :
+
+```
+GET /api/photo/F-GSPO
+```
+
+```javascript
+{
+  "photo": {
+    "photoUrl": "https://www.airhistory.net/photos/0413575.jpg",
+    "photoData": {
+        "registration": "F-GSPO",
+        "aircraftType": "Boeing 777-228/ER",
+        "locationAirport": "Paris - Charles de Gaulle (LFPG / CDG)Map",
+        "locationCountry": "France",
+        "date": "25 March 2011",
+        "photographer": "Freek Blokzijl"
+    }
+  }
+}
+```
+
+```
+https://www.airhistory.net/photos/0413575.jpg
+```
+
+![F-GSPO](assets/images/F-GSPO.jpg)
+
+:camera: F-GSPO | Photo by Freek Blokzijl
+
+| Index | Property | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| 0 | **photoUrl** | String | URL of the aircraft photo |
+| 1 | **photoData** | Object | Contains detailed information about the aircraft and the photo |
+| 1.1 | **registration** | String | Aircraft registration number |
+| 1.2 | **aircraftType** | String | Aircraft model and type |
+| 1.3 | **locationAirport** | String | The name and code of the airport where the photo was taken |
+| 1.4 | **locationCountry** | String | Country where the photo was taken |
+| 1.5 | **date** | String | Date the photo was taken |
+| 1.6 | **photographer** | String | Name of the photographer who took the photo |
